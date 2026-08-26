@@ -41,6 +41,8 @@ Note: this is not a rigorous estimation. It's a dumb and simple, good enough app
 
 ### Open Router
 
+Metrics below combine runs 1 and 2. Values are medians; time columns are milliseconds. Decode/s only includes samples where the model returned the full decode passage.
+
 #### openai/gpt-oss-120b
 
 | endpoint | time before prefill | time before prefill (prompt cached) | standard prefill/s | standard decode/s |
@@ -52,7 +54,7 @@ Note: this is not a rigorous estimation. It's a dumb and simple, good enough app
 | baseten/fp4 | 480.1 | 420.4 | 5.979 | 1.018 |
 | parasail/fp4 | 487.9 | 419.9 | 2.004 | 0.281 |
 | deepinfra/turbo | 508.3 | 588.4 | 1.768 | 0.731 |
-| google-vertex/global | 700.4 | 48270.1 | 2.690 | 1.163 |
+| google-vertex/global | 700.4 | 48270.1 | 2.690 | 0.589 |
 | together | 806.9 | 878.8 | 2.358 | 0.229 |
 | amazon-bedrock/eu-west-1 | 825.6 | 458.6 | 1.353 | 0.776 |
 | novita/fp4 | 956.9 | - | 3.446 | - |
@@ -81,21 +83,21 @@ Note: this is not a rigorous estimation. It's a dumb and simple, good enough app
 | atlas-cloud/fp4 | 1235.8 | 1648.1 | 0.731 | 1.141 |
 | reka/fp4 | 1279.4 | 1119.6 | 1.511 | 2.891 |
 | alibaba | 1399.4 | 1131.8 | 1.536 | 0.216 |
-| relace/fp4 | 1464.2 | 2530.2 | - | 0.580 |
+| relace/fp4 | 1464.2 | 2530.2 | - | 0.873 |
 | cloudflare | 1503.8 | 2878.9 | 0.873 | - |
 | digitalocean | 1556.7 | 3298.0 | 2.736 | 0.063 |
 | streamlake/fp8 | 1595.0 | 1490.7 | 1.875 | 0.363 |
-| wafer/fast | 1719.0 | 1699.9 | 2.328 | 0.506 |
+| wafer/fast | 1719.0 | 1699.9 | 2.328 | 11.042 |
 | inceptron/fp4 | 1859.9 | 1053.4 | 0.409 | 0.307 |
 | siliconflow/fp8 | 2042.8 | 3191.2 | 2.267 | 0.255 |
 | novita/fp8 | 2047.5 | 4134.2 | 17.012 | 0.873 |
 | baseten/fp8 | 2927.9 | 720.1 | 1.773 | - |
 | open-inference/fp4 | 3012.0 | 5198.6 | 0.048 | 0.017 |
 | gmicloud/fp8 | 3277.1 | 1982.7 | 0.969 | 0.654 |
-| phala | 3292.6 | 2162.2 | 0.128 | 0.537 |
+| phala | 3292.6 | 2162.2 | 0.128 | 0.705 |
 | morph/bf16 | 9378.9 | 3658.9 | 0.062 | 0.033 |
 | ambient/fp4 | 9565.5 | 11622.5 | 0.007 | - |
-| baidu/fp8 | - | - | - | 0.977 |
+| baidu/fp8 | - | - | - | 1.015 |
 | deepseek | - | - | - | - |
 | mancer/fp8 | - | 983.9 | 0.316 | - |
 | parasail/fp8 | - | - | - | - |
@@ -181,7 +183,7 @@ Note: this is not a rigorous estimation. It's a dumb and simple, good enough app
 | digitalocean | 1389.3 | 1242.8 | 0.885 | 0.145 |
 | modal/mxfp4 | 1932.1 | 1119.5 | 1.263 | 0.764 |
 | alibaba | 1944.9 | 3763.6 | 0.359 | 0.069 |
-| chutes/mxfp4 | 2573.9 | 2774.1 | 0.609 | 0.130 |
+| chutes/mxfp4 | 2573.9 | 2774.1 | 0.609 | 0.132 |
 | together | 3503.1 | - | 0.254 | 0.496 |
 | deepinfra/bf16 | 4777.8 | 1042.4 | 0.817 | 0.058 |
 | phala | 5427.2 | 33321.6 | 0.375 | 0.167 |

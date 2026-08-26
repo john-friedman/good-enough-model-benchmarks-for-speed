@@ -47,6 +47,15 @@ DEFAULT_BENCHMARKS = (
 DEFAULT_LATENCY_PROMPT_PATH = PROMPTS_ROOT / "on_belay.md"
 DEFAULT_PREFILL_PROMPT_PATH = PROMPTS_ROOT / "lorem_ipsum_100_paragraphs.md"
 DEFAULT_DECODE_PROMPT_PATH = PROMPTS_ROOT / "lorem_ipsum_1_paragraph.md"
+EXPECTED_DECODE_CONTENT = (
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam efficitur eleifend vulputate. "
+    "Sed in odio suscipit, sollicitudin tellus ac, ultricies dolor. Fusce eu rutrum sem, eu fringilla "
+    "metus. Aliquam dapibus tellus fringilla, luctus neque et, congue justo. Nulla euismod lorem quis "
+    "elit elementum, quis facilisis mauris tristique. Suspendisse pellentesque nec orci ut commodo. Nam "
+    "maximus leo sit amet enim scelerisque, sit amet lacinia diam auctor. Donec quis eleifend eros, eu "
+    "auctor magna. Integer vehicula sem eget diam hendrerit, quis vulputate diam placerat. Duis "
+    "dignissim, dui faucibus aliquam eleifend, quam quam volutpat urna, eu eleifend ante orci ac ex."
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -260,6 +269,20 @@ def response_content(data: dict[str, Any]) -> str:
     message = choices[0].get("message", {})
     content = message.get("content", "")
     return content if isinstance(content, str) else ""
+
+
+def normalized_decode_text(value: str) -> str:
+    text = " ".join(value.strip().split())
+    quote_pairs = (('"', '"'), ("'", "'"))
+    for opener, closer in quote_pairs:
+        if text.startswith(opener) and text.endswith(closer):
+            text = text[1:-1].strip()
+            break
+    return text
+
+
+def decode_output_is_complete(data: dict[str, Any]) -> bool:
+    return normalized_decode_text(response_content(data)) == normalized_decode_text(EXPECTED_DECODE_CONTENT)
 
 
 def elapsed_ms(data: dict[str, Any]) -> float:
@@ -651,7 +674,9 @@ def summarize_records(records: Iterable[dict[str, Any]]) -> list[dict[str, Any]]
             metric_values = [
                 float(data["_metric_value"])
                 for data in group_records
-                if isinstance(data.get("_metric_value"), (int, float)) and not is_error_record(data)
+                if isinstance(data.get("_metric_value"), (int, float))
+                and not is_error_record(data)
+                and (benchmark != BENCHMARK_STANDARD_DECODE or decode_output_is_complete(data))
             ]
         if not elapsed_values and benchmark not in (BENCHMARK_STANDARD_PREFILL, BENCHMARK_STANDARD_DECODE):
             elapsed_values = [record_elapsed_ms(data) for data in group_records if not is_error_record(data)]
@@ -708,6 +733,7 @@ def summarize_decode_metrics(records: list[dict[str, Any]]) -> list[float]:
             or is_error_record(baseline)
             or is_error_record(prefill_probe)
             or is_error_record(decode)
+            or not decode_output_is_complete(decode)
         ):
             continue
 
