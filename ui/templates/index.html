@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Latency Benchmarks</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<main>
+  <h1>Latency Benchmarks</h1>
+
+  <p>Prefill text is 14k tokens using the GPT 5.x tokenizer. Decode is 150 tokens.</p>
+
+  {% for error in errors %}
+    <div class="message error">{{ error }}</div>
+  {% endfor %}
+
+  <form id="benchmark_form" method="post">
+    <section class="panel">
+      <label for="model_input">Model slugs</label>
+      <div class="tagbox" id="model_tagbox">
+        <input id="model_input" spellcheck="false" autocomplete="off" placeholder="provider/model">
+      </div>
+      <input id="models" name="models" type="hidden" value="{{ models }}">
+      <div class="muted" id="model_status"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Samples</h2>
+      <div class="controls">
+        <div>
+          <label for="samples">N</label>
+          <input id="samples" name="samples" type="number" min="1" value="{{ samples }}">
+        </div>
+        <div>
+          <label for="concurrency">Concurrency</label>
+          <input id="concurrency" name="concurrency" type="number" min="1" value="{{ concurrency }}">
+        </div>
+        <div>
+          <label for="max_retries">Retries</label>
+          <input id="max_retries" name="max_retries" type="number" min="0" value="{{ max_retries }}">
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Benchmarks</h2>
+      <div class="checks">
+        {% for key, definition in benchmark_defs.items() %}
+          <label class="check">
+            <input type="checkbox" name="benchmarks" value="{{ key }}" {% if key in selected_benchmarks %}checked{% endif %}>
+            <span>{{ definition.label }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="panel" id="endpoints_panel" hidden>
+      <input type="hidden" id="endpoints_present" name="endpoints_present" value="">
+      <h2>Endpoints</h2>
+      <div id="endpoints"></div>
+    </section>
+
+    <div class="actions">
+      <button type="submit" name="action" value="run">Run benchmarks</button>
+    </div>
+  </form>
+
+  <section class="panel">
+    <h2>Load Benchmark</h2>
+    {% if available_runs %}
+      <div class="run-list">
+        {% for run in available_runs %}
+          <form method="get">
+            <input type="hidden" name="run" value="{{ run.id }}">
+            <button class="secondary" type="submit">Run {{ run.id }}</button>
+          </form>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="muted">No saved runs.</div>
+    {% endif %}
+  </section>
+
+  {% if result_tables %}
+    <section>
+      <h2>{{ results_heading or "Results" }}</h2>
+      {% for table in result_tables %}
+        <details class="table-section model-results">
+          <summary><h2>{{ table.title }} ({{ table.total_cost }})</h2></summary>
+          <div class="table-tools">
+            <input type="search" placeholder="Filter endpoints" data-filter-for="{{ table.id }}">
+          </div>
+          <table class="result-table" data-table-id="{{ table.id }}">
+            <thead>
+              <tr>
+                <th aria-sort="none"><button class="sort-header" type="button" data-sort-for="{{ table.id }}" data-sort-key="endpoint">Endpoint</button></th>
+                <th aria-sort="ascending"><button class="sort-header" type="button" data-sort-for="{{ table.id }}" data-sort-key="tbf">Time before prefill</button></th>
+                <th aria-sort="none"><button class="sort-header" type="button" data-sort-for="{{ table.id }}" data-sort-key="cached">Time before prefill (prompt cached)</button></th>
+                <th aria-sort="none"><button class="sort-header" type="button" data-sort-for="{{ table.id }}" data-sort-key="prefill">Standard prefill/s</button></th>
+                <th aria-sort="none"><button class="sort-header" type="button" data-sort-for="{{ table.id }}" data-sort-key="decode">Standard decode/s</button></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in table.rows %}
+                <tr
+                  data-endpoint="{{ row.endpoint|lower }}"
+                  data-sort-endpoint="{{ row.endpoint|lower }}"
+                  data-sort-tbf="{{ row.time_before_prefill_sort }}"
+                  data-sort-cached="{{ row.cached_sort }}"
+                  data-sort-prefill="{{ row.prefill_sort }}"
+                  data-sort-decode="{{ row.decode_sort }}"
+                >
+                  <td><code>{{ row.endpoint }}</code></td>
+                  <td>{{ row.time_before_prefill }}</td>
+                  <td>{{ row.cached }}</td>
+                  <td>{{ row.prefill }}</td>
+                  <td>{{ row.decode }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </details>
+      {% endfor %}
+    </section>
+  {% endif %}
+</main>
+
+<script id="initial-state" type="application/json">{{ initial_state|tojson }}</script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
