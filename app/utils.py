@@ -670,14 +670,14 @@ def summarize_records(records: Iterable[dict[str, Any]]) -> list[dict[str, Any]]
             metric_values = summarize_decode_metrics(group_records)
 
         # Backward compatibility for older saved runs; new JSONs do not store metrics.
-        if not metric_values:
-            metric_values = [
+        if benchmark in (BENCHMARK_STANDARD_PREFILL, BENCHMARK_STANDARD_DECODE):
+            metric_values.extend(
                 float(data["_metric_value"])
                 for data in group_records
                 if isinstance(data.get("_metric_value"), (int, float))
                 and not is_error_record(data)
                 and (benchmark != BENCHMARK_STANDARD_DECODE or decode_output_is_complete(data))
-            ]
+            )
         if not elapsed_values and benchmark not in (BENCHMARK_STANDARD_PREFILL, BENCHMARK_STANDARD_DECODE):
             elapsed_values = [record_elapsed_ms(data) for data in group_records if not is_error_record(data)]
 
