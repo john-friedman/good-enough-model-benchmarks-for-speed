@@ -62,15 +62,16 @@ app = Flask(
 )
 
 DEFAULT_MODEL_SLUGS = (
-    "openai/gpt-oss-120b",
-    "deepseek/deepseek-v4-flash-0731",
-    "google/gemini-3.7-flash",
-    "google/gemini-3.5-flash-lite",
-    "openai/gpt-5.6-luna",
-    "qwen/qwen3.8-27b",
-    "xiaomi/mimo-v2.5",
-    "mistralai/mistral-nemo",
-    "anthropic/claude-sonnet-5",
+    # "openai/gpt-oss-120b",
+    # "deepseek/deepseek-v4-flash-0731",
+    # "google/gemini-3.7-flash",
+    # "google/gemini-3.5-flash-lite",
+    # "openai/gpt-5.6-luna",
+    # "qwen/qwen3.8-27b",
+    # "xiaomi/mimo-v2.5",
+    # "mistralai/mistral-nemo",
+    # "anthropic/claude-sonnet-5",
+    "z-ai/glm-5.3-flash",
 )
 DEFAULT_MODELS_RAW = "\n".join(DEFAULT_MODEL_SLUGS)
 

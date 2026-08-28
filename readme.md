@@ -41,7 +41,7 @@ Note: this is not a rigorous estimation. It's a dumb and simple, good enough app
 
 ### Open Router
 
-Metrics below are split into benchmark sets: Benchmark one combines runs 1 and 2; Benchmark two combines runs 3 and 4. Values are medians; time columns are milliseconds. Each metric cell includes its sample count in parentheses. Decode/s only includes samples where the model returned the full decode passage.
+Metrics below are split into benchmark sets: Benchmark one combines runs 1 and 2; Benchmark two combines runs 3 and 4; Benchmark three is run 5. Values are medians; time columns are milliseconds. Each metric cell includes its sample count in parentheses. Decode/s only includes samples where the model returned the full decode passage.
 
 #### openai/gpt-oss-120b
 
@@ -443,6 +443,29 @@ Metrics below are split into benchmark sets: Benchmark one combines runs 1 and 2
 | endpoint | time before prefill | time before prefill (prompt cached) | standard prefill/s | standard decode/s |
 | - | -: | -: | -: | -: |
 | z-ai/fp8 | 1518.8 (10) | 1343.9 (10) | 0.436 (10) | 2.248 (10) |
+
+##### Benchmark three
+
+| endpoint | time before prefill | time before prefill (prompt cached) | standard prefill/s | standard decode/s |
+| - | -: | -: | -: | -: |
+| baseten/fp8 | 619.9 (1) | 401.2 (7) | 0.813 (3) | - (0) |
+| makora | 853.5 (10) | 547.9 (10) | 2.548 (7) | 0.799 (10) |
+| together | 1076.9 (10) | 476.1 (10) | 1.851 (10) | 0.389 (8) |
+| io-net/fp8 | 1088.4 (10) | 1743.3 (10) | 0.784 (10) | 2.266 (4) |
+| digitalocean | 1093.8 (10) | 1146.7 (10) | 1.718 (8) | 0.086 (10) |
+| morph/fp8 | 1242.4 (10) | 903.2 (10) | 0.306 (10) | 0.319 (10) |
+| parasail/fp8 | 1287.2 (10) | 891.4 (10) | 1.580 (10) | 0.167 (10) |
+| wafer | 1663.1 (9) | 1291.6 (10) | 2.390 (6) | 0.675 (9) |
+| z-ai/fp8 | 1827.5 (10) | 1250.9 (10) | 0.766 (10) | 0.395 (10) |
+| novita/fp8 | 1858.6 (10) | 1356.4 (10) | 1.450 (10) | 0.498 (9) |
+| cloudflare | 1880.6 (10) | 1890.7 (10) | 1.545 (5) | 0.661 (1) |
+| reka/fp8 | 2499.7 (10) | 2391.0 (10) | 0.634 (8) | 0.269 (10) |
+| gmicloud/fp8 | 2643.1 (10) | 1943.2 (10) | 1.089 (7) | 0.459 (6) |
+| phala/fp8 | 4053.7 (10) | 1562.1 (10) | 1.140 (5) | 0.140 (5) |
+| friendli | 4541.6 (10) | 5453.3 (10) | 0.531 (6) | 0.949 (6) |
+| venice | 6839.4 (10) | 6739.5 (10) | 2.963 (3) | 0.087 (10) |
+| modal/fp8 | 8080.1 (10) | 516.7 (10) | 1.809 (8) | 1.307 (8) |
+| deepinfra/fp8 | - (0) | - (0) | - (0) | - (0) |
 
 ## App Layout
 
