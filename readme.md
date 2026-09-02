@@ -41,7 +41,7 @@ Note: this is not a rigorous estimation. It's a dumb and simple, good enough app
 
 ### Open Router
 
-Metrics below are split into benchmark sets: Benchmark one combines runs 1 and 2; Benchmark two combines runs 3 and 4; Benchmark three is run 5. Values are medians; time columns are milliseconds. Each metric cell includes its sample count in parentheses. Decode/s only includes samples where the model returned the full decode passage.
+Metrics below are split into benchmark sets: Benchmark one combines runs 1 and 2; Benchmark two combines runs 3 and 4; Benchmark three is run 5; Benchmark four is run 6. Values are medians; time columns are milliseconds. Each metric cell includes its sample count in parentheses. Decode/s only includes samples where the model returned the full decode passage.
 
 #### openai/gpt-oss-120b
 
@@ -466,6 +466,27 @@ Metrics below are split into benchmark sets: Benchmark one combines runs 1 and 2
 | venice | 6839.4 (10) | 6739.5 (10) | 2.963 (3) | 0.087 (10) |
 | modal/fp8 | 8080.1 (10) | 516.7 (10) | 1.809 (8) | 1.307 (8) |
 | deepinfra/fp8 | - (0) | - (0) | - (0) | - (0) |
+
+#### google/gemini-3.8-flash
+
+##### Benchmark four
+
+| endpoint | time before prefill | time before prefill (prompt cached) | standard prefill/s | standard decode/s |
+| - | -: | -: | -: | -: |
+| google-vertex/global | 1587.2 (10) | 1396.3 (10) | 2.068 (10) | 0.584 (10) |
+| google-ai-studio/flex | 1672.3 (10) | 1607.9 (10) | 1.419 (10) | 1.384 (10) |
+| google-vertex/global/priority | 1732.0 (10) | 1353.4 (10) | 1.937 (10) | 0.789 (10) |
+| google-ai-studio | 1870.5 (10) | 1672.0 (10) | 1.564 (10) | 1.160 (10) |
+| google-ai-studio/priority | 1999.3 (10) | 2132.8 (10) | 0.496 (10) | 1.215 (10) |
+| google-vertex/global/flex | 11710.1 (10) | 11370.6 (10) | 1.492 (10) | 0.470 (10) |
+
+#### inception/mercury-2
+
+##### Benchmark four
+
+| endpoint | time before prefill | time before prefill (prompt cached) | standard prefill/s | standard decode/s |
+| - | -: | -: | -: | -: |
+| inception | 434.6 (10) | 400.7 (10) | 2.115 (10) | 8.463 (10) |
 
 ## App Layout
 

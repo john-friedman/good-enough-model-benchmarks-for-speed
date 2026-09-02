@@ -43,7 +43,7 @@ from app.utils import (
 )
 
 TARGET_SAMPLES = 10
-DEFAULT_RUNS = ("3","4")
+DEFAULT_RUNS = ("6")
 DEFAULT_CONCURRENCY = 80
 DEFAULT_MAX_RETRIES = 10
 

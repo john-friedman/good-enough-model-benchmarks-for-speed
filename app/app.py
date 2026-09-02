@@ -71,7 +71,8 @@ DEFAULT_MODEL_SLUGS = (
     # "xiaomi/mimo-v2.5",
     # "mistralai/mistral-nemo",
     # "anthropic/claude-sonnet-5",
-    "z-ai/glm-5.3-flash",
+    "inception/mercury-2",
+    "google/gemini-3.8-flash"
 )
 DEFAULT_MODELS_RAW = "\n".join(DEFAULT_MODEL_SLUGS)
 
